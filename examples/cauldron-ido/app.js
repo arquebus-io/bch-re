@@ -636,15 +636,55 @@
     });
   };
 
+  /* --------------------------- mobile drawer --------------------------- */
+
+  const wireMobileDrawer = () => {
+    const right = $('.right');
+    const toggle = $('#rail-toggle');
+    if (!right || !toggle) return;
+
+    const open = () => {
+      right.setAttribute('data-mobile-open', 'true');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('drawer-open');
+    };
+    const close = () => {
+      right.removeAttribute('data-mobile-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('drawer-open');
+    };
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (right.getAttribute('data-mobile-open') === 'true') close(); else open();
+    });
+
+    // Tap outside the drawer to close.
+    document.addEventListener('click', (e) => {
+      if (right.getAttribute('data-mobile-open') !== 'true') return;
+      if (e.target.closest('.right')) return;
+      close();
+    });
+
+    // Esc to close.
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && right.getAttribute('data-mobile-open') === 'true') close();
+    });
+  };
+
   /* --------------------------- init --------------------------- */
 
   const init = () => {
     wireInputs();
     wirePhases();
+    wireMobileDrawer();
     renderSliderLabels();
     render();
-    // Focus the first field for immediate engagement.
-    setTimeout(() => $('#f-name')?.focus(), 100);
+    // Focus the first field for immediate engagement (skip on touch devices
+    // so the keyboard doesn't pop up over the form on first paint).
+    if (!matchMedia('(hover: none)').matches) {
+      setTimeout(() => $('#f-name')?.focus(), 100);
+    }
   };
 
   if (document.readyState === 'loading') {

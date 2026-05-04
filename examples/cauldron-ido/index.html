@@ -331,7 +331,16 @@
 
   <aside class="right" aria-label="world preview" data-state="example">
 
-    <div class="rail-inner">
+    <button class="rail-toggle" type="button" id="rail-toggle" aria-expanded="false" aria-controls="rail-inner">
+      <span class="rt-icon">◆</span>
+      <span class="rt-meta">
+        <span class="rt-name" data-bind="ticker">EXMPL</span>
+        <span class="rt-stat"><span data-derive="rail-raise">14.28 BCH</span> · tap for chart</span>
+      </span>
+      <span class="rt-arrow" aria-hidden="true">▾</span>
+    </button>
+
+    <div class="rail-inner" id="rail-inner">
 
       <!-- token card -->
       <div class="token-card">
