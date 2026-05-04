@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cauldron — Launch your token</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">◇</span>
+    <span class="brand-name">Cauldron</span>
+  </div>
+  <nav class="nav">
+    <a href="#">Swap</a>
+    <a href="#">Tokens</a>
+    <a href="#">Pools</a>
+    <a href="#" class="nav-current">IDO</a>
+  </nav>
+  <div class="account" aria-label="connected wallet">qqsct…fkple</div>
+</header>
+
+<main class="canvas">
+
+  <section class="left" aria-label="authoring">
+
+    <!-- ============ PHASE 2: AUTHORING ============ -->
+    <div class="phase" data-phase="authoring">
+
+      <header class="phase-head">
+        <h1>Launch your token.</h1>
+        <p class="subhead">Author the tokenomics, fund the liquidity, go live in one flow.</p>
+      </header>
+
+      <!-- Field: token name -->
+      <article class="field" data-field="name" data-status="active">
+        <label class="q" for="f-name">What's your token called?</label>
+        <p class="helper">This is the name people see in wallets and on the swap page.</p>
+        <input id="f-name" class="input" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Cauldron Coin">
+        <div class="resolved" hidden></div>
+      </article>
+
+      <!-- Field: ticker -->
+      <article class="field" data-field="ticker">
+        <label class="q" for="f-ticker">What's its ticker?</label>
+        <p class="helper">A short symbol — usually 3–5 letters. Like &ldquo;BCH&rdquo; or &ldquo;ETH&rdquo;.</p>
+        <input id="f-ticker" class="input" type="text" maxlength="10" autocomplete="off" placeholder="e.g. CDR">
+        <p class="friction" data-friction="ticker-long" hidden>Tickers over 6 characters tend to read as wordy in trading interfaces.</p>
+        <div class="resolved" hidden></div>
+      </article>
+
+      <!-- Field: decimals -->
+      <article class="field" data-field="decimals">
+        <label class="q" for="f-decimals">How divisible is one <span class="tk">[TICKER]</span>?</label>
+        <p class="helper">Decimals control how finely your token can be split. 0 means whole tokens only (like collectibles); 8 means very divisible (like BCH).</p>
+        <input id="f-decimals" class="input input-narrow" type="number" min="0" max="8" step="1" value="2">
+        <div class="mentor" data-mentor="decimals">
+          <div class="mentor-row" data-d="0"><span class="d-label">0</span><span class="d-ex">1</span><span class="d-note">whole tokens only</span></div>
+          <div class="mentor-row" data-d="2"><span class="d-label">2</span><span class="d-ex">1.00</span><span class="d-note">like dollars and cents</span></div>
+          <div class="mentor-row" data-d="8"><span class="d-label">8</span><span class="d-ex">0.00000001</span><span class="d-note">like BCH itself</span></div>
+        </div>
+        <div class="resolved" hidden></div>
+      </article>
+
+      <!-- Field: supply -->
+      <article class="field" data-field="supply">
+        <label class="q" for="f-supply">How many <span class="tk">[TICKER]</span> will exist, ever?</label>
+        <p class="helper">This is the maximum supply. Once minted, no more can be created.</p>
+        <input id="f-supply" class="input" type="number" min="1" step="1" placeholder="e.g. 1000000">
+        <div class="resolved" hidden></div>
+      </article>
+
+      <!-- Field: identity (optional grouped) -->
+      <article class="field field-optional" data-field="identity">
+        <details>
+          <summary>Identity <span class="opt">(optional — description, icon, links)</span></summary>
+          <div class="optional-body">
+            <label class="q-mini" for="f-desc">Description</label>
+            <textarea id="f-desc" class="input" rows="2" maxlength="280" placeholder="One or two sentences your buyers will read."></textarea>
+            <label class="q-mini" for="f-website">Website</label>
+            <input id="f-website" class="input" type="url" placeholder="https://…">
+            <div class="row-2">
+              <div>
+                <label class="q-mini" for="f-twitter">Twitter / X</label>
+                <input id="f-twitter" class="input" type="text" placeholder="@handle">
+              </div>
+              <div>
+                <label class="q-mini" for="f-telegram">Telegram</label>
+                <input id="f-telegram" class="input" type="text" placeholder="t.me/…">
+              </div>
+            </div>
+          </div>
+        </details>
+      </article>
+
+      <!-- Field: raise goal -->
+      <article class="field" data-field="raise">
+        <label class="q" for="f-raise">How much BCH do you want to raise?</label>
+        <p class="helper">This is your target. The IDO sells tokens at a price calculated from this goal and your offered supply.</p>
+        <div class="row-input">
+          <input id="f-raise" class="input" type="number" min="0" step="0.01" value="10">
+          <span class="suffix">BCH</span>
+        </div>
+        <div class="mentor" data-mentor="raise">
+          <button type="button" class="benchmark" data-raise="1"><span class="b-label">Small</span><span class="b-amount">1 BCH</span></button>
+          <button type="button" class="benchmark" data-raise="10"><span class="b-label">Mid</span><span class="b-amount">10 BCH</span></button>
+          <button type="button" class="benchmark" data-raise="100"><span class="b-label">Large</span><span class="b-amount">100 BCH</span></button>
+        </div>
+        <p class="usd-note" data-derive="raise-usd"></p>
+        <div class="resolved" hidden></div>
+      </article>
+
+      <!-- Field: sale percentage -->
+      <article class="field" data-field="salePct">
+        <label class="q" for="f-sale">How much of your supply are you offering?</label>
+        <p class="helper">The rest stays with you. Most launches sell 30–60% to the public.</p>
+        <div class="slider-row">
+          <input id="f-sale" class="slider" type="range" min="1" max="100" step="1" value="50">
+          <output class="slider-value" data-bind="salePct">50%</output>
+        </div>
+        <div class="mentor mentor-breakdown" data-mentor="salePct">
+          <div class="bd-row"><span class="bd-label">You'll sell</span><span class="bd-value" data-derive="willSell">—</span></div>
+          <div class="bd-row"><span class="bd-label">You'll keep</span><span class="bd-value" data-derive="willKeep">—</span></div>
+          <div class="bd-row"><span class="bd-label">If sold out, you'll receive</span><span class="bd-value" data-derive="willReceive">—</span></div>
+        </div>
+        <div class="resolved" hidden></div>
+      </article>
+
+      <!-- Field: duration -->
+      <article class="field" data-field="duration">
+        <label class="q" for="f-duration">How long should the IDO run?</label>
+        <p class="helper">Longer durations give buyers more time to participate but delay your access to raised funds.</p>
+        <div class="slider-row">
+          <input id="f-duration" class="slider" type="range" min="1" max="365" step="1" value="30">
+          <output class="slider-value" data-bind="duration">30 days</output>
+        </div>
+        <div class="mentor mentor-timeline" data-mentor="duration">
+          <div class="tl-row">
+            <span class="tl-marker tl-start">Today</span>
+            <div class="tl-bar"><div class="tl-fill" data-derive="tl-fill"></div></div>
+            <span class="tl-marker tl-end" data-derive="endDate">—</span>
+          </div>
+          <p class="tl-note" data-derive="durationPhrase"></p>
+        </div>
+        <p class="friction" data-friction="duration-long" hidden>Long durations delay access to raised funds. Most launches use 30–90 days.</p>
+        <div class="resolved" hidden></div>
+      </article>
+
+      <!-- Field: permanent liquidity share -->
+      <article class="field" data-field="permLiq">
+        <label class="q" for="f-permliq">What share of the raise becomes permanent liquidity?</label>
+        <p class="helper">A portion of every purchase is locked into a liquidity pool forever. This makes your token tradeable after the IDO ends. Most launches use 15–25%.</p>
+        <div class="slider-row">
+          <input id="f-permliq" class="slider" type="range" min="0" max="100" step="1" value="20">
+          <output class="slider-value" data-bind="permLiq">20%</output>
+        </div>
+        <div class="mentor" data-mentor="permLiq">
+          <p class="diagram">
+            When someone buys <span class="tk">[TICKER]</span> for 1 BCH,
+            <span class="hi" data-derive="permLiqPct">20%</span>
+            (= <span class="hi" data-derive="permLiqPerBchBch">0.20 BCH</span>)
+            goes into a permanent liquidity pool and stays there forever, letting future users trade <span class="tk">[TICKER]</span>.
+          </p>
+        </div>
+        <p class="friction" data-friction="permliq-low" hidden>Lower shares mean thinner trading after launch. Consider 15–25%.</p>
+        <div class="resolved" hidden></div>
+      </article>
+
+      <!-- Field: time-lock discount -->
+      <article class="field" data-field="timeLock">
+        <label class="q" for="f-timelock">How much should early lockers be rewarded?</label>
+        <p class="helper">Buyers who lock their tokens longer get them cheaper. This rate is the annualized discount.</p>
+        <div class="slider-row">
+          <input id="f-timelock" class="slider" type="range" min="0" max="50" step="1" value="17">
+          <output class="slider-value" data-bind="timeLock">17%</output>
+        </div>
+        <div class="mentor mentor-buyers" data-mentor="timeLock">
+          <div class="buyer">
+            <div class="buyer-h">Buyer A — locks 30 days</div>
+            <div class="buyer-price" data-derive="buyerA">—</div>
+          </div>
+          <div class="buyer">
+            <div class="buyer-h">Buyer B — locks 365 days</div>
+            <div class="buyer-price" data-derive="buyerB">—</div>
+          </div>
+        </div>
+        <p class="friction" data-friction="timelock-zero" hidden>With no discount, there's little incentive to lock. Most IDOs at 0% see under 5% permanent liquidity formation. Consider 15–20%.</p>
+        <div class="resolved" hidden></div>
+      </article>
+
+      <div class="cta-row">
+        <button type="button" class="cta-primary" id="to-reflection">Review your launch</button>
+      </div>
+
+    </div>
+
+    <!-- ============ PHASE 3: REFLECTION ============ -->
+    <div class="phase" data-phase="reflection" hidden>
+      <header class="phase-head">
+        <h2>Read it back to yourself.</h2>
+        <p class="subhead">If anything below is wrong, tap it and you'll jump back to the field.</p>
+      </header>
+      <div class="paragraph" id="reflection-paragraph"></div>
+      <div class="cta-row">
+        <button type="button" class="cta-secondary" id="back-to-authoring">Edit any of this</button>
+        <button type="button" class="cta-primary" id="to-fee">Looks good — continue</button>
+      </div>
+    </div>
+
+    <!-- ============ PHASE 4a: FEE VALUE ============ -->
+    <div class="phase" data-phase="fee" hidden>
+      <header class="phase-head">
+        <h2 class="anchor-line"><span class="anchor-comp">Pump.fun charges 25%.</span> <span class="anchor-us">We charge <span data-derive="feePct">5%</span>.</span></h2>
+        <p class="anchor-sub">If your token gains more than <span data-derive="feeBreakeven">6%</span> after launch, the fee has already paid for itself.</p>
+      </header>
+
+      <div class="pillars">
+        <article class="pillar">
+          <h3>You're launching to an audience that's already here.</h3>
+          <p>Cauldron has <strong>1,847 active wallets</strong> connected, with <strong>312 BCH</strong> in buy-side liquidity ready to deploy. Your token appears on the verified tokens page the moment it goes live. Opted-in users get a mobile push notification.</p>
+          <p class="pillar-note">Live numbers — refreshed daily.</p>
+        </article>
+
+        <article class="pillar pillar-emphasis">
+          <h3>We win only when you win.</h3>
+          <p>Our fee comes out of your raise — which means we get paid only if your IDO succeeds. If your raise goal isn't hit, every buyer is refunded automatically and we earn nothing. Our incentives and yours are aligned at the contract level, not the marketing level.</p>
+        </article>
+
+        <article class="pillar">
+          <h3>Buyers trust Cauldron launches. That trust transfers to you.</h3>
+          <p>Cauldron enforces refund guarantees, vesting contracts, and instant liquidity at the protocol level. Buyers in the BCH ecosystem know this. When your token appears on the verified tokens page, it inherits that credibility from day one — without you having to earn it from scratch.</p>
+        </article>
+
+        <article class="pillar">
+          <h3>The launch infrastructure is already built and battle-tested.</h3>
+          <ul class="pillar-list">
+            <li><strong>No sale without success.</strong> Buyers are refunded automatically if your raise goal isn't met.</li>
+            <li><strong>Instant permanent liquidity.</strong> <span data-derive="permLiqPct">20%</span> of every purchase locks into a tradeable pool the moment it happens.</li>
+            <li><strong>Vesting and lock discounts, enforced on-chain.</strong> The contracts rewarding your time-lockers are already audited.</li>
+          </ul>
+          <p>Building any one of these yourself takes weeks of engineering and a security audit. You'd pay an audit firm 10–50× our fee for less coverage.</p>
+        </article>
+
+        <article class="pillar">
+          <h3>We ship every week, funded by these fees.</h3>
+          <p>The fee funds ongoing development. We ship improvements every week — see the <a href="#" class="link">public changelog</a>. If you have a feature request or need custom support, we're reachable: <a href="#" class="link">contact</a>.</p>
+        </article>
+      </div>
+
+      <article class="bch-panel">
+        <h3>What you can tell your buyers:</h3>
+        <p>Your token runs on Bitcoin Cash. The average transaction fee is about <strong>a quarter of a penny</strong>. That means a buyer with $1 can profitably participate in your project — fees won't eat their position. Compare that to Ethereum, where a $20 gas fee makes any sub-$100 buyer unprofitable from the start.</p>
+        <p class="bch-tag">You're not just launching a token. You're launching a token your community can actually afford to hold.</p>
+      </article>
+
+      <div class="social-proof">
+        <h4>Recent successful launches</h4>
+        <div class="proof-row">
+          <div class="proof-card">
+            <div class="proof-icon">◆</div>
+            <div class="proof-meta">
+              <div class="proof-name">FluxCash <span class="proof-tk">FLUX</span></div>
+              <div class="proof-line">Raised <strong>42 BCH</strong> · Now trading at <strong>3.8×</strong> launch price</div>
+            </div>
+          </div>
+          <div class="proof-card">
+            <div class="proof-icon">●</div>
+            <div class="proof-meta">
+              <div class="proof-name">Tidepool <span class="proof-tk">TIDE</span></div>
+              <div class="proof-line">Raised <strong>18 BCH</strong> · Now trading at <strong>2.1×</strong> launch price</div>
+            </div>
+          </div>
+          <div class="proof-card">
+            <div class="proof-icon">▲</div>
+            <div class="proof-meta">
+              <div class="proof-name">Mantle <span class="proof-tk">MNT</span></div>
+              <div class="proof-line">Raised <strong>27 BCH</strong> · Now trading at <strong>1.9×</strong> launch price</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fee-summary">
+        <p><strong>Platform fee:</strong> <span data-derive="feePct">5%</span> of your raise — approximately <strong data-derive="feeBch">0.5 BCH</strong> if you sell out. Shown as a slice in your donut on the right.</p>
+      </div>
+
+      <div class="cta-row">
+        <button type="button" class="cta-primary" id="to-launch">I understand — show me the launch button</button>
+      </div>
+    </div>
+
+    <!-- ============ PHASE 4b: LAUNCH ============ -->
+    <div class="phase" data-phase="launch" hidden>
+      <div class="value-pill" id="value-pill">What you're getting ▾</div>
+      <header class="phase-head">
+        <h2>Last step.</h2>
+        <p class="subhead">When you sign, your launch is broadcast. There's no "are you sure" after this.</p>
+      </header>
+      <div class="paragraph paragraph-compact" id="launch-paragraph"></div>
+      <button type="button" class="cta-launch" id="launch-btn">Launch <span data-bind="ticker-upper">TOKEN</span>.</button>
+      <p class="launch-status" id="launch-status" hidden></p>
+    </div>
+
+    <!-- ============ PHASE 5: RETURN ============ -->
+    <div class="phase" data-phase="return" hidden>
+      <header class="phase-head">
+        <h2><span data-bind="ticker-upper">TOKEN</span> is live.</h2>
+        <p class="subhead">The chart on the right is now real, on-chain, and watching every buyer that arrives.</p>
+      </header>
+
+      <article class="share-panel">
+        <h3>Share your launch</h3>
+        <textarea readonly id="share-copy" class="input share-input"></textarea>
+        <div class="share-row">
+          <button type="button" class="cta-secondary" id="copy-share">Copy</button>
+          <a class="cta-secondary" id="share-twitter" href="#" target="_blank" rel="noopener">Tweet</a>
+          <a class="cta-secondary" id="share-link" href="#" target="_blank" rel="noopener">Open IDO page</a>
+        </div>
+      </article>
+
+      <details class="recap" id="first-time-recap">
+        <summary>What just happened</summary>
+        <div class="recap-body" id="recap-body"></div>
+      </details>
+
+    </div>
+
+  </section>
+
+  <aside class="right" aria-label="world preview" data-state="example">
+
+    <div class="rail-inner">
+
+      <!-- token card -->
+      <div class="token-card">
+        <div class="token-icon">◆</div>
+        <div class="token-meta">
+          <div class="token-name" data-bind="name">EXAMPLE</div>
+          <div class="token-ticker" data-bind="ticker">EXMPL</div>
+        </div>
+      </div>
+
+      <!-- donut -->
+      <div class="donut-wrap">
+        <svg viewBox="-100 -100 200 200" class="donut" aria-hidden="true">
+          <circle r="80" class="donut-track" fill="none" stroke-width="22"></circle>
+          <g class="donut-slices" transform="rotate(-90)">
+            <circle r="80" class="slice slice-public" fill="none" stroke-width="22"></circle>
+            <circle r="80" class="slice slice-perm" fill="none" stroke-width="22"></circle>
+            <circle r="80" class="slice slice-fee" fill="none" stroke-width="22"></circle>
+          </g>
+          <text x="0" y="-2" class="donut-center" text-anchor="middle" data-bind="ticker">EXMPL</text>
+          <text x="0" y="14" class="donut-sub" text-anchor="middle">total raise</text>
+        </svg>
+      </div>
+
+      <!-- legend -->
+      <ul class="legend">
+        <li><span class="dot dot-public"></span> You receive <span class="legend-val" data-derive="legendPublic">—</span></li>
+        <li><span class="dot dot-perm"></span> Permanent liquidity <span class="legend-val" data-derive="legendPerm">—</span></li>
+        <li><span class="dot dot-fee"></span> Platform fee <span class="legend-val" data-derive="legendFee">—</span></li>
+      </ul>
+
+      <!-- numbers -->
+      <dl class="numbers">
+        <div><dt>Total raise</dt><dd><span data-derive="rail-raise">14.28 BCH</span></dd></div>
+        <div><dt>Price</dt><dd><span data-derive="rail-price">2.402×10⁻⁷</span> <span class="muted">BCH /</span> <span data-bind="ticker">EXMPL</span></dd></div>
+        <div><dt>Wallet req.</dt><dd><span data-derive="rail-wallet">71,366,925</span> <span data-bind="ticker">EXMPL</span></dd></div>
+        <div><dt>Ends</dt><dd><span data-derive="rail-end">—</span></dd></div>
+      </dl>
+
+      <!-- timeline strip -->
+      <div class="rail-timeline">
+        <div class="rail-tl-bar"><div class="rail-tl-fill" data-derive="rail-tl-fill"></div></div>
+        <div class="rail-tl-labels"><span>today</span><span data-derive="rail-tl-end">—</span></div>
+      </div>
+
+      <p class="rail-tag" id="rail-tag">Example — yours appears here as you build.</p>
+
+    </div>
+
+  </aside>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
